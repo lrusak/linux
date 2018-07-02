@@ -573,7 +573,7 @@ static int vc4_plane_mode_set(struct drm_plane *plane,
 				      SCALER_POS2_ALPHA_MODE_PIPELINE :
 				      SCALER_POS2_ALPHA_MODE_FIXED,
 				      SCALER_POS2_ALPHA_MODE) |
-			(fb->format->has_alpha ? SCALER_POS2_ALPHA_PREMULT : 0) |
+			(format->has_alpha ? SCALER_POS2_ALPHA_PREMULT : 0) |
 			VC4_SET_FIELD(vc4_state->src_w[0], SCALER_POS2_WIDTH) |
 			VC4_SET_FIELD(vc4_state->src_h[0], SCALER_POS2_HEIGHT));
 
