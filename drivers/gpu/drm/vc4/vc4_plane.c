@@ -657,7 +657,7 @@ static int vc4_plane_mode_set(struct drm_plane *plane,
 	 * alpha content and blends from the background or does not cover
 	 * the entire screen.
 	 */
-	vc4_state->needs_bg_fill = fb->format->has_alpha || !covers_screen;
+	vc4_state->needs_bg_fill = format->has_alpha || !covers_screen;
 
 	return 0;
 }
