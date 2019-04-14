@@ -14042,7 +14042,7 @@ skl_max_scale(const struct intel_crtc_state *crtc_state,
 {
 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->base.crtc);
 	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
-	int max_scale, mult;
+	int max_scale, mult, remainder;
 	int crtc_clock, max_dotclk, tmpclk1, tmpclk2;
 
 	if (!crtc_state->base.enable)
@@ -14059,12 +14059,15 @@ skl_max_scale(const struct intel_crtc_state *crtc_state,
 
 	/*
 	 * skl max scale is lower of:
-	 *    close to 3 but not 3, -1 is for that purpose
+	 *    for planar YUV formats: 2
+	 *            or
+	 *    for other formats: close to 3 but not 3, -1 is for that purpose
 	 *            or
 	 *    cdclk/crtc_clock
 	 */
 	mult = is_planar_yuv_format(pixel_format) ? 2 : 3;
-	tmpclk1 = (1 << 16) * mult - 1;
+	remainder = is_planar_yuv_format(pixel_format) ? 0 : 1;
+	tmpclk1 = (1 << 16) * mult - remainder;
 	tmpclk2 = (1 << 8) * ((max_dotclk << 8) / crtc_clock);
 	max_scale = min(tmpclk1, tmpclk2);
 
